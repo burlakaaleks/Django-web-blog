@@ -1,0 +1,18 @@
+{% extends 'blog/base_blog.html'%}
+	{% block title %}
+		Posts
+	{% endblock %}
+
+	{% block content %}
+		<h1>Hello, World!</h1>
+		<h2>Glad to see you, {{name}}!</h2>
+		
+		{% for label in labels %}
+		<p>
+			{{ label }}
+		</p>
+		{% endfor %}
+	{% endblock %}
+
+
+
