@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from .models import *
 from .utils import *
@@ -15,6 +16,7 @@ def posts_list(request):
 # def post_detail(request, slug):
 # 	post = Post.objects.get(slug__iexact = slug)
 # 	return render(request, 'blog/post_detail.html', context = {'post': post})
+
 
 class PostDetail(ObjectDetailMixin, View):
 	model = Post
@@ -40,10 +42,18 @@ class PostCreate(ObjectCreateMixin, View):
 	# 		return redirect(new_post)
 	# 	return render(request, 'blog/post_create_form.html', context={'form':bound_form})
 
+
 class PostUpdate(ObjectUpdateMixin, View):
 	model = Post
 	model_form = PostForm
 	template = 'blog/post_update_form.html'
+
+
+class PostDelete(ObjectDeleteMixin, View):
+	model = Post
+	template = 'blog/post_delete_form.html'
+	redirect_url = 'posts_list_url'
+
 
 class TagDetail(ObjectDetailMixin, View):
 	model = Tag
@@ -71,6 +81,7 @@ class TagCreate(ObjectCreateMixin, View):
 	# 		return redirect(new_tag)
 	# 	return render(request, 'blog/tag_create.html', context={'form':bound_form})
 
+
 class TagUpdate(ObjectUpdateMixin, View):
 	model = Tag
 	model_form = TagForm
@@ -88,6 +99,22 @@ class TagUpdate(ObjectUpdateMixin, View):
 	# 		new_tag = bound_form.save()
 	# 		return redirect(new_tag)
 	# 	return render(request, 'blog/tag_update.html', context={'form':bound_form, 'tag':tag})
+
+
+class TagDelete(ObjectDeleteMixin, View):
+	model = Tag
+	template = 'blog/tag_delete.html'
+	redirect_url = 'tags_list_url'
+
+	# def get(self, request, slug):
+	# 	tag = Tag.objects.get(slug__iexact=slug)
+	# 	return render(request, 'blog/tag_delete.html', context={'tag':tag})
+	#
+	# def post(self, request, slug):
+	# 	tag = Tag.objects.get(slug__iexact=slug)
+	# 	tag.delete()
+	# 	return redirect(reverse('tags_list_url'))
+
 
 def tags_list(request):
 	tags = Tag.objects.all()
